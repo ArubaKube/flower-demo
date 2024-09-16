@@ -12,7 +12,7 @@ spec:
       labels:
         flwr.liqo.io: supernode-1
     spec:
-      containers:
+      initContainers:
         - name: supernode
           image: flwr/supernode:1.11.0
           args:
@@ -29,6 +29,8 @@ spec:
             - containerPort: 9094
               name: supernode
               protocol: TCP
+          restartPolicy: Always   # sidecar container (k8s >= 1.29) 
+      containers:
         - name: clientapp
           image: flwr_clientapp:0.0.1
           args:
