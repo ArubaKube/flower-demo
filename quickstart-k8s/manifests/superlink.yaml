@@ -13,10 +13,10 @@ spec:
         flwr.liqo.io: superlink
     spec:
       containers:
-        - args:
-            - --insecure
+        - name: superlink
           image: flwr/superlink:1.11.0
-          name: superlink
+          args:
+            - --insecure
           ports:
             - containerPort: 9091
               name: server

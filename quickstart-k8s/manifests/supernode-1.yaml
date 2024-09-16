@@ -13,7 +13,9 @@ spec:
         flwr.liqo.io: supernode-1
     spec:
       containers:
-        - args:
+        - name: supernode
+          image: flwr/supernode:1.11.0
+          args:
             - --insecure
             - --superlink
             - superlink.flwr.svc.cluster.local:9092
@@ -23,24 +25,16 @@ spec:
             - process
             - --node-config
             - partition-id=0 num-partitions=2
-          image: flwr/supernode:1.11.0
-          name: supernode-1
           ports:
             - containerPort: 9094
               name: supernode
               protocol: TCP
+        - name: clientapp
+          image: flwr_clientapp:0.0.1
+          args:
+            - --supernode
+            - 0.0.0.0:9094
+          resources:
+            limits:
+              cpu: "2"
       restartPolicy: Always
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: supernode-1
-spec:
-  ports:
-    - name: supernode
-      port: 9094
-      targetPort: supernode
-      protocol: TCP
-  selector:
-    flwr.liqo.io: supernode-1
-  type: ClusterIP

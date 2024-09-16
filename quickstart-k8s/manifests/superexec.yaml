@@ -13,14 +13,14 @@ spec:
         flwr.liqo.io: superexec
     spec:
       containers:
-        - args:
+        - name: superexec
+          image: flwr_superexec:0.0.1
+          args:
             - --executor
             - flwr.superexec.deployment:executor
             - --insecure
             - --executor-config
             - superlink="superlink.flwr.svc.cluster.local:9091"
-          image: flwr_superexec:0.0.1
-          name: superexec
           ports:
             - containerPort: 9093
               name: app
