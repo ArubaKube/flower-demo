@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    flwr.liqo.io: superlink
+  name: superlink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      flwr.liqo.io: superlink
+  template:
+    metadata:
+      labels:
+        flwr.liqo.io: superlink
+    spec:
+      containers:
+        - args:
+            - --insecure
+          image: flwr/superlink:1.11.0
+          name: superlink
+          ports:
+            - containerPort: 9091
+              name: server
+            - containerPort: 9092
+              name: client
+      restartPolicy: Always
+---
+# Service for superlink
+apiVersion: v1
+kind: Service
+metadata:
+  name: superlink
+spec:
+  ports:
+    - name: "server"
+      port: 9091
+      targetPort: 9091
+      protocol: TCP
+    - name: "client"
+      port: 9092
+      targetPort: 9092
+      protocol: TCP
+  selector:
+    flwr.liqo.io: superlink
+  type: ClusterIP

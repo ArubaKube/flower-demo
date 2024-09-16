@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    flwr.liqo.io: supernode-2
+  name: supernode-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      flwr.liqo.io: supernode-2
+  template:
+    metadata:
+      labels:
+        flwr.liqo.io: supernode-2
+    spec:
+      containers:
+        - args:
+            - --insecure
+            - --superlink
+            - superlink.flwr.svc.cluster.local:9092
+            - --supernode-address
+            - 0.0.0.0:9095
+            - --isolation
+            - process
+            - --node-config
+            - partition-id=1 num-partitions=2
+          image: flwr/supernode:1.11.0
+          name: supernode-2
+          ports:
+            - containerPort: 9095
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: supernode-2
+spec:
+  ports:
+    - name: "9095"
+      port: 9095
+      targetPort: 9095
+      protocol: TCP
+  selector:
+    flwr.liqo.io: supernode-2
+  type: ClusterIP

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    flwr.liqo.io: clientapp-1
+  name: clientapp-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      flwr.liqo.io: clientapp-1
+  template:
+    metadata:
+      labels:
+        flwr.liqo.io: clientapp-1
+    spec:
+      containers:
+        - args:
+            - --supernode
+            - supernode-1.flwr.svc.cluster.local:9094
+          image: flwr_clientapp:0.0.1
+          name: clientapp-1
+          resources:
+            limits:
+              cpu: "2"
+      restartPolicy: Always
