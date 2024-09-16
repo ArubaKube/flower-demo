@@ -37,6 +37,6 @@ options.num-supernodes = 10
 
 # Added for quickstart-k8s
 [tool.flwr.federations.k8s]
-# address = "127.0.0.1:9093"
-address = "172.18.0.2:31987"
+# address = "127.0.0.1:9093" # if using port-forward
+address = "172.18.0.2:32000" # if using static nodeport
 insecure = true

@@ -1,8 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    flwr.liqo.io: superexec
   name: superexec
 spec:
   replicas: 1
@@ -25,6 +23,7 @@ spec:
           name: superexec
           ports:
             - containerPort: 9093
+              name: app
               protocol: TCP
       restartPolicy: Always
 ---
@@ -34,10 +33,11 @@ metadata:
   name: superexec
 spec:
   ports:
-    - name: "9093"
+    - name: app
       port: 9093
-      targetPort: 9093
+      targetPort: app
       protocol: TCP
+      nodePort: 32000 
   selector:
     flwr.liqo.io: superexec
   type: NodePort

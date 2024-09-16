@@ -1,8 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    flwr.liqo.io: clientapp-1
   name: clientapp-1
 spec:
   replicas: 1

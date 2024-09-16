@@ -1,8 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    flwr.liqo.io: supernode-1
   name: supernode-1
 spec:
   replicas: 1
@@ -29,6 +27,7 @@ spec:
           name: supernode-1
           ports:
             - containerPort: 9094
+              name: supernode
               protocol: TCP
       restartPolicy: Always
 ---
@@ -38,9 +37,9 @@ metadata:
   name: supernode-1
 spec:
   ports:
-    - name: "9094"
+    - name: supernode
       port: 9094
-      targetPort: 9094
+      targetPort: supernode
       protocol: TCP
   selector:
     flwr.liqo.io: supernode-1
