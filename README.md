@@ -1,2 +1,2 @@
-# liqo-federated-learning
-Federated Learning demo using Flower framework and Liqo for multi-cluster setup
+# POC: Federated Learning using Flower on a multi-cluster environment powered by Liqo
+
