@@ -26,17 +26,30 @@ spec:
               protocol: TCP
       restartPolicy: Always
 ---
-# Service for superlink
+# Service for connecting superexec (server) to superlink
 apiVersion: v1
 kind: Service
 metadata:
-  name: superlink
+  name: superlink-server
+  annotations:
+    liqo.io/skip-reflection: "true"
 spec:
   ports:
     - name: server
       port: 9091
       targetPort: server
       protocol: TCP
+  selector:
+    flwr.liqo.io: superlink
+  type: ClusterIP
+---
+# Service for connecting supernode (clients) to superlink
+apiVersion: v1
+kind: Service
+metadata:
+  name: superlink-client
+spec:
+  ports:
     - name: client
       port: 9092
       targetPort: client

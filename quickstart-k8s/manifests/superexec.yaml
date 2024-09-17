@@ -14,13 +14,14 @@ spec:
     spec:
       containers:
         - name: superexec
-          image: flwr_superexec:0.0.1
+          # image: flwr_superexec:0.0.1
+          image: ghcr.io/fra98/flwr/superexec:0.0.1
           args:
             - --executor
             - flwr.superexec.deployment:executor
             - --insecure
             - --executor-config
-            - superlink="superlink.flwr.svc.cluster.local:9091"
+            - superlink="superlink-server.flwr.svc.cluster.local:9091"
           ports:
             - containerPort: 9093
               name: app
@@ -31,6 +32,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: superexec
+  annotations:
+    liqo.io/skip-reflection: "true"
 spec:
   ports:
     - name: app

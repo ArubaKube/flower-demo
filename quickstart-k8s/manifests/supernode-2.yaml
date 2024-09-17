@@ -18,9 +18,9 @@ spec:
           args:
             - --insecure
             - --superlink
-            - superlink.flwr.svc.cluster.local:9092
+            - superlink-client.flwr.svc.cluster.local:9092
             - --supernode-address
-            - 0.0.0.0:9094
+            - 127.0.0.1:9094
             - --isolation
             - process
             - --node-config
@@ -32,11 +32,12 @@ spec:
           restartPolicy: Always   # sidecar container (k8s >= 1.29) 
       containers:
         - name: clientapp
-          image: flwr_clientapp:0.0.1
+          image: ghcr.io/fra98/flwr/clientapp:0.0.1
           args:
             - --supernode
-            - 0.0.0.0:9094
+            - 127.0.0.1:9094
           resources:
             limits:
               cpu: "2"
       restartPolicy: Always
+      runtimeClassName: liqo
