@@ -1,0 +1,11 @@
+FROM flwr/clientapp:${FLWR_VERSION:-1.11.1}
+
+WORKDIR /app
+
+RUN python -m pip install -U --no-cache-dir torch==2.2.1 torchvision==0.17.1 --index-url https://download.pytorch.org/whl/cpu
+
+COPY --chown=app:app pyproject.toml .
+RUN sed -i 's/.*flwr\[simulation\].*//' pyproject.toml \
+  && python -m pip install -U --no-cache-dir .
+
+ENTRYPOINT ["flwr-clientapp"]

@@ -32,7 +32,7 @@ spec:
           restartPolicy: Always   # sidecar container (k8s >= 1.29) 
       containers:
         - name: clientapp
-          image: ghcr.io/fra98/flwr/clientapp:0.0.1
+          image: ghcr.io/fra98/flwr/clientapp:0.0.1-cpu
           args:
             - --supernode
             - 127.0.0.1:9094

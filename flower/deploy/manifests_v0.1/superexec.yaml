@@ -14,7 +14,6 @@ spec:
     spec:
       containers:
         - name: superexec
-          # image: flwr_superexec:0.0.1
           image: ghcr.io/fra98/flwr/superexec:0.0.1
           args:
             - --executor
