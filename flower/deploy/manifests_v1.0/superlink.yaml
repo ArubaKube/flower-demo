@@ -17,6 +17,7 @@ spec:
           image: flwr/superlink:1.11.0
           args:
             - --insecure
+            - --database=/data/state.db
           ports:
             - containerPort: 9091
               name: server
@@ -28,7 +29,25 @@ spec:
             limits:
               cpu: 500m
               memory: 200Mi
+          volumeMounts:
+          - name: db
+            mountPath: /data
       restartPolicy: Always
+      volumes:
+      - name: db
+        persistentVolumeClaim:
+          claimName: db
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 # Service for connecting superexec (server) to superlink
 apiVersion: v1
