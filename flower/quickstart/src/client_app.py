@@ -4,7 +4,7 @@ import torch
 from flwr.client import NumPyClient, ClientApp
 from flwr.common import Context
 
-from quickstart.task import (
+from src.task import (
     Net,
     load_data,
     get_weights,
