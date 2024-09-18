@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: supernode-1
+  name: supernode-2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      flwr.liqo.io: supernode-1
+      flwr.liqo.io: supernode-2
   template:
     metadata:
       labels:
-        flwr.liqo.io: supernode-1
+        flwr.liqo.io: supernode-2
     spec:
       initContainers:
         - name: supernode
@@ -24,7 +24,7 @@ spec:
             - --isolation
             - process
             - --node-config
-            - partition-id=0 num-partitions=2
+            - partition-id=1 num-partitions=2
           ports:
             - containerPort: 9094
               name: supernode
@@ -38,6 +38,7 @@ spec:
             - 127.0.0.1:9094
           resources:
             limits:
-              cpu: "2"
+              cpu: 3
+              memory: 2Gi
       restartPolicy: Always
       runtimeClassName: liqo

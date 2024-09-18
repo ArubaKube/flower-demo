@@ -24,6 +24,10 @@ spec:
             - containerPort: 9092
               name: client
               protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 200Mi
       restartPolicy: Always
 ---
 # Service for connecting superexec (server) to superlink

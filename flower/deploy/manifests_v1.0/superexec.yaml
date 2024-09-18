@@ -14,7 +14,6 @@ spec:
     spec:
       containers:
         - name: superexec
-          # image: flwr_superexec:0.0.1
           image: ghcr.io/fra98/flwr/superexec:0.0.1
           args:
             - --executor
@@ -26,6 +25,10 @@ spec:
             - containerPort: 9093
               name: app
               protocol: TCP
+          resources:
+            limits:
+              cpu: 2
+              memory: 1Gi
       restartPolicy: Always
 ---
 apiVersion: v1
