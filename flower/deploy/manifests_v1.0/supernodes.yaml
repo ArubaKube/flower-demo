@@ -64,4 +64,14 @@ spec:
               cpu: 3
               memory: 2Gi
       restartPolicy: Always
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: flwr.liqo.io
+                    operator: In
+                    values:
+                      - supernode
+              topologyKey: kubernetes.io/hostname
       runtimeClassName: liqo
