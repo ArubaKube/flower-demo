@@ -55,7 +55,7 @@ kind: Service
 metadata:
   name: superlink-server
   annotations:
-    liqo.io/skip-reflection: "true"
+    liqo.io/skip-reflection: "true" # disable reflection as offloaded clients do not need to connect to the server port of the superlink
 spec:
   ports:
     - name: server
