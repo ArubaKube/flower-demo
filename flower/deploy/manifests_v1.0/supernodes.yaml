@@ -74,12 +74,4 @@ spec:
                     values:
                       - supernode
               topologyKey: kubernetes.io/hostname
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                - key: liqo.io/type
-                  operator: In
-                  values:
-                  - virtual-node
-      # runtimeClassName: liqo # if using the liqo runtime class
+      runtimeClassName: liqo
