@@ -1,4 +1,4 @@
-# quickstart: A Flower / PyTorch app
+# liqo-fl: a simple Flower/PyTorch demo app
 
 ## Install dependencies and project
 
@@ -8,7 +8,7 @@ pip install -e .
 
 ## Run with the Simulation Engine
 
-In the `quickstart` directory, use `flwr run` to run a local simulation:
+Use `flwr run` to run a local simulation:
 
 ```bash
 flwr run .
@@ -17,5 +17,5 @@ flwr run .
 ## Run with the Deployment Engine
 
 ```bash
-flwr run . k8s
+flwr run . liqo
 ```

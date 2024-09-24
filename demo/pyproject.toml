@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "quickstart"
+name = "liqo-demo"
 version = "1.0.0"
 description = ""
 license = "Apache-2.0"
@@ -35,8 +35,8 @@ default = "local-simulation"
 [tool.flwr.federations.local-simulation]
 options.num-supernodes = 10
 
-# Added for quickstart-k8s
-[tool.flwr.federations.k8s]
+# Demo with Liqo federation
+[tool.flwr.federations.liqo]
 # address = "127.0.0.1:9093" # if using port-forward
 address = "172.18.0.2:32000" # if using static nodeport
 insecure = true

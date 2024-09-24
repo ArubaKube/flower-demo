@@ -1,4 +1,4 @@
-"""quickstart: A Flower / PyTorch app."""
+"""A simple Flower/PyTorch demo app"""
 
 from flwr.common import Context, ndarrays_to_parameters
 from flwr.server import ServerApp, ServerAppComponents, ServerConfig

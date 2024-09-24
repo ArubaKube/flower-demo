@@ -1,4 +1,4 @@
-"""quickstart: A Flower / PyTorch app."""
+"""A simple Flower/PyTorch demo app"""
 
 import torch
 from flwr.client import NumPyClient, ClientApp

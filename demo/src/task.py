@@ -1,4 +1,4 @@
-"""quickstart: A Flower / PyTorch app."""
+"""A simple Flower/PyTorch demo app"""
 
 from collections import OrderedDict
 
