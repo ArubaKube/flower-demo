@@ -20,7 +20,7 @@ spec:
             - flwr.superexec.deployment:executor
             - --insecure
             - --executor-config
-            - superlink="superlink-server.flwr.svc.cluster.local:9091"
+            - superlink="superlink-server:9091"
           ports:
             - containerPort: 9093
               name: app

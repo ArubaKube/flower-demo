@@ -34,7 +34,7 @@ spec:
           args:
             - --insecure
             - --superlink
-            - superlink-client.flwr.svc.cluster.local:9092
+            - superlink-client:9092
             - --supernode-address
             - 127.0.0.1:9094
             - --isolation
