@@ -1,32 +1,34 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: supernode
+  name: client
+  annotations:
+    liqo.io/skip-reflection: "true"
 spec:
   ports:
-    - name: supernode
+    - name: client
       port: 9094
-      targetPort: supernode
+      targetPort: client
       protocol: TCP
   selector:
-    flwr.liqo.io: supernode
+    flwr.liqo.io: client
   clusterIP: None
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: supernode
+  name: client
 spec:
   replicas: 2
-  serviceName: supernode
+  serviceName: client
   podManagementPolicy: Parallel
   selector:
     matchLabels:
-      flwr.liqo.io: supernode
+      flwr.liqo.io: client
   template:
     metadata:
       labels:
-        flwr.liqo.io: supernode
+        flwr.liqo.io: client
     spec:
       initContainers:
         - name: supernode
@@ -34,7 +36,7 @@ spec:
           args:
             - --insecure
             - --superlink
-            - superlink-client:9092
+            - server:9092
             - --supernode-address
             - 127.0.0.1:9094
             - --isolation
@@ -72,6 +74,6 @@ spec:
                   - key: flwr.liqo.io
                     operator: In
                     values:
-                      - supernode
+                      - client
               topologyKey: kubernetes.io/hostname
       runtimeClassName: liqo

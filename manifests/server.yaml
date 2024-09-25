@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      flwr.liqo.io: server
+  template:
+    metadata:
+      labels:
+        flwr.liqo.io: server
+    spec:
+      containers:
+        - name: superexec
+          image: ghcr.io/fra98/flwr/superexec:0.0.1-cpu
+          args:
+            - --executor
+            - flwr.superexec.deployment:executor
+            - --insecure
+            - --executor-config
+            - superlink="127.0.0.1:9091"
+          ports:
+            - containerPort: 9093
+              name: app
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 2
+              memory: 1Gi
+        - name: superlink
+          image: flwr/superlink:1.11.0
+          args:
+            - --insecure
+            - --database=/data/state.db
+          ports:
+            - containerPort: 9091
+              name: link-server
+              protocol: TCP
+            - containerPort: 9092
+              name: link-client
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 200Mi
+          volumeMounts:
+          - name: db
+            mountPath: /data
+      restartPolicy: Always
+      volumes:
+      - name: db
+        persistentVolumeClaim:
+          claimName: db
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+# Service for connecting supernodes (clients) to superlink (server)
+apiVersion: v1
+kind: Service
+metadata:
+  name: server
+spec:
+  ports:
+    - name: link-client
+      port: 9092
+      targetPort: link-client
+      protocol: TCP
+  selector:
+    flwr.liqo.io: server
+  type: ClusterIP
+---
+# [Optional] Service for connecting to the server to run the application
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: app
+#   annotations:
+#     liqo.io/skip-reflection: "true"
+# spec:
+#   ports:
+#     - name: app
+#       port: 9093
+#       targetPort: app
+#       protocol: TCP
+#       # nodePort: 32000 
+#   selector:
+#     flwr.liqo.io: server
+#   type: NodePort # LoadBalancer

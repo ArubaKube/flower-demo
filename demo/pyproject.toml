@@ -37,6 +37,6 @@ options.num-supernodes = 10
 
 # Demo with Liqo federation
 [tool.flwr.federations.liqo]
-# address = "127.0.0.1:9093" # if using port-forward
-address = "172.18.0.2:32000" # if using static nodeport
+address = "127.0.0.1:9093" # if using port-forward
+# address = "172.18.0.2:32000" # if using static nodeport
 insecure = true
