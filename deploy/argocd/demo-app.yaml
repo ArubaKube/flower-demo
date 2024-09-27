@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flower-demo
+spec:
+  destination:
+    name: ''
+    namespace: flower-demo
+    server: https://kubernetes.default.svc
+  source:
+    path: deploy/manifests
+    repoURL: https://github.com/liqotech/flower-demo/
+    targetRevision: HEAD
+  sources: []
+  project: default

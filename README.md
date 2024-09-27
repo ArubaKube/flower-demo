@@ -19,24 +19,32 @@ To bootstrap the environment you need 1 cluster acting as a server, and N acting
 
 Requirements:
 - liqo is installed on all clusters
-- enable the liqo `RuntimeClass`. This is not strictly required, you can keep the RuntimeClass off, but you need to modify the chart adding NodeAffinities to all deployments/statefulsets (i.e., deploy `superexec` and `superlink` on local nodes, while `supernodes` on liqo virtual nodes)
+- enable the liqo `RuntimeClass`. This is not strictly required, you can keep the RuntimeClass off, but you need to modify the chart adding NodeAffinities to all deployments/statefulsets (i.e., deploy `server` on local nodes, while `clients` on liqo virtual nodes)
 - peer the central cluster (server) with all N client clusters (no bidirectional peering is required)
+- install [flwr cli](https://flower.ai/docs/framework/how-to-install-flower.html)
+
 
 ## Deploy the app
 
 On the central cluster (the one acting as a server) run:
 
 ```bash
-kubectl create ns demo
-liqoctl offload namespace demo --namespace-mapping-strategy EnforceSameName
-kubectl apply -f ./manifests
+kubectl create ns flower-demo
+liqoctl offload namespace flower-demo --namespace-mapping-strategy EnforceSameName
+kubectl apply -f ./deploy/manifests -n flower-demo
 ```
 
-Note: in the `manifests/supernodes.yaml` file make sure the number of replicas of the *StatefulSet* and the `NUM_CLIENT` env variable are equal to the number of clients (peered clusters).
+Note: in the `manifests/clients.yaml` file make sure the number of replicas of the *StatefulSet* and the `NUM_CLIENT` env variable are equal to the number of clients (peered clusters).
 
 ## Run the app
 
-Prerequisite: install [flwr cli](https://flower.ai/docs/framework/how-to-install-flower.html)
+On the central cluster, expose the server app endpoint (port 9093):
+
+```bash
+kubectl port-forward pods/<SERVER_POD> 9093:9093
+```
+
+Now you are ready to run the training with:
 
 ```bash
 flwr run ./demo liqo
