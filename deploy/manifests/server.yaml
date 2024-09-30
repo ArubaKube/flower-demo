@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: superexec
-          image: ghcr.io/fra98/flwr/superexec:0.0.1-cpu
+          image: ghcr.io/liqotech/flwr/superexec:0.0.1-cpu
           args:
             - --executor
             - flwr.superexec.deployment:executor
@@ -61,6 +61,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: standard
   resources:
     requests:
       storage: 1Gi
