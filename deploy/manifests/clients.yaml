@@ -19,7 +19,7 @@ kind: StatefulSet
 metadata:
   name: client
 spec:
-  replicas: 2
+  replicas: 3
   serviceName: client
   podManagementPolicy: Parallel
   selector:
@@ -54,7 +54,7 @@ spec:
               fieldRef:
                 fieldPath: metadata.labels['apps.kubernetes.io/pod-index'] # require PodIndexLabel feature gate (k8s >= 1.28)
           - name: NUM_CLIENTS
-            value: "2" # must match the number of replicas
+            value: "3" # must match the number of replicas
       containers:
         - name: clientapp
           image: ghcr.io/liqotech/flwr/clientapp:0.0.1-cpu
