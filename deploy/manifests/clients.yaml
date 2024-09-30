@@ -21,7 +21,7 @@ metadata:
 spec:
   replicas: 3
   serviceName: client
-  podManagementPolicy: Parallel
+  # podManagementPolicy: Parallel
   selector:
     matchLabels:
       flwr.liqo.io: client

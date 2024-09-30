@@ -27,7 +27,7 @@ spec:
               protocol: TCP
           resources:
             limits:
-              cpu: 2
+              cpu: 4
               memory: 1Gi
         - name: superlink
           image: flwr/superlink:1.11.0
@@ -61,6 +61,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: local-path
   resources:
     requests:
       storage: 1Gi
