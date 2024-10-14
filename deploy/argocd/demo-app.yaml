@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   source:
     path: deploy/manifests
-    repoURL: https://github.com/liqotech/flower-demo
+    repoURL: https://github.com/arubakube/flower-demo
     targetRevision: HEAD
   sources: []
   project: default

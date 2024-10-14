@@ -57,7 +57,7 @@ spec:
             value: "3" # must match the number of replicas
       containers:
         - name: clientapp
-          image: ghcr.io/liqotech/flwr/clientapp:0.0.1-cpu
+          image: ghcr.io/arubakube/flwr/clientapp:0.0.1-cpu
           args:
             - --supernode
             - 127.0.0.1:9094

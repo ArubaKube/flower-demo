@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: superexec
-          image: ghcr.io/liqotech/flwr/superexec:0.0.1-cpu
+          image: ghcr.io/arubakube/flwr/superexec:0.0.1-cpu
           args:
             - --executor
             - flwr.superexec.deployment:executor
