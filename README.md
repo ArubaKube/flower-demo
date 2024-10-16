@@ -6,6 +6,22 @@ The deployed app is a simple ML model trained on the [CIFAR-10](https://www.cs.t
 
 ## Overview
 
+The demo leverages a multi-cluster environment to run a distributed FL training. 
+To setup the environment we need a:
+- a central cluster: 
+    - acts as a server
+    - pilots the application (offloads client pods to the leaf clusters)
+    - expose a private Service (*ClusterIP*) for the client to connects
+    - aggregrate the results and hosts the global model
+- N leaf clusters:
+    - act as clients
+    - train their local model using local (sensitive) data
+    - share the updated weights to server by accessing the server Service
+
+Architecture overview:
+
+![architecture overview](/static/images/architecture-overview.png)
+
 ## Build the images
 
 ```bash
@@ -18,9 +34,12 @@ docker build -f ./build/Dockerfile.clientapp -t <IMAGE_NAME>:<IMAGE_VERSION> ./d
 To bootstrap the environment you need 1 cluster acting as a server, and N acting as clients.
 
 Requirements:
-- liqo is installed on all clusters
-- enable the liqo `RuntimeClass`. This is not strictly required, you can keep the RuntimeClass off, but you need to modify the chart adding NodeAffinities to all deployments/statefulsets (i.e., deploy `server` on local nodes, while `clients` on liqo virtual nodes)
-- peer the central cluster (server) with all N client clusters (no bidirectional peering is required)
+- [install](https://docs.liqo.io/en/latest/installation/install.html) Liqo on all clusters
+- enable the liqo `RuntimeClass` [feature](https://docs.liqo.io/en/latest/usage/namespace-offloading.html#runtimeclass).
+This is not strictly required, you can keep the RuntimeClass off, but you need to modify the chart adding NodeAffinities to all deployments/statefulsets (i.e., deploy `server` on local nodes, while `clients` on liqo virtual nodes)
+- peer the central cluster (server) with all N client clusters. 
+The central cluster acts as a *consumer*, while the leaf clusters acts as a *provider*  (no bidirectional peering is required).
+Refer to the official [docs](https://docs.liqo.io/en/latest/features/peering.html) for more info.
 - install [flwr cli](https://flower.ai/docs/framework/how-to-install-flower.html)
 
 
